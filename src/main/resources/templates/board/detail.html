@@ -8,7 +8,7 @@
 	<script th:inline="javascript">
 		function likeClick(bid) {
 			$.ajax({
-				type: 'GET', 
+				type: 'GET',
 				url: '/abbs/board/like/' + bid,
 				success: function(count) {
 					$('#likeCount').replaceWith(count);
@@ -60,20 +60,19 @@
 							<h5>[[${board.uname}]]</h5>
 							<h6>조회 [[${board.viewCount}]] &nbsp;&nbsp; 댓글 [[${board.replyCount}]]</h6>
 							<h6>
-								<span th:if="${session.sessUid eq board.uid}">		<!-- 본인은 좋아요 X-->
-									<a href="#"><i class="fa-regular fa-thumbs-up"></i>[[${count}]]</a>
+								<span th:if="${session.sessUid eq board.uid}">	<!-- 본인은 좋아요 누르지 못함 -->
+									<a href="#"><i class="fa-regular fa-thumbs-up"></i> [[${count}]]</a>
 								</span>
 								<span th:if="${session.sessUid ne board.uid}">
 									<a href="#" th:onclick="likeClick([[${board.bid}]])">
-									<i class="fa-regular fa-thumbs-up"></i>
-									<span id = "likeCount" th:text="${count}"></span>
+										<i class="fa-regular fa-thumbs-up"></i>
+										<span id="likeCount" th:text="${count}"></span>
 									</a>
 								</span>
 							</h6>
-
 						</div>
 						<hr>
-						<div class="col-12" th:text="${board.content}"></div>
+						<div class="col-12" th:utext="${board.content}"></div>
 						<br><br><hr>							
 					</div>
 

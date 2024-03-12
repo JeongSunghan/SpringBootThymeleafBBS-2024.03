@@ -5,7 +5,16 @@
 	<style>
 		td, th { text-align: center; }
 	</style>
-	<script>
+	<script th:inline="javascript">
+		function likeClick(bid) {
+			$.ajax({
+				type: 'GET', 
+				url: '/abbs/board/like/' + bid,
+				success: function(count) {
+					$('#likeCount').replaceWith(count);
+				}
+			});
+		}
 		function deleteBoard() {
 			$('#deleteModal').modal('show');
 		}
@@ -36,11 +45,11 @@
 						</span>
 					</h3>
 					<hr>
-					<div class="row">
+					<div class="row mb-3">
 						<div class="col-8">
 							<h5>[[${board.title}]]</h5>
-							<h6>글번호: [[${board.bid}]] | 
-								<span th:text="${#temporals.format(board.modTime, 'yy-MM-dd HH:mm')}"></span></h6>
+							<h6>글번호: [[${board.bid}]] &nbsp;&nbsp; 
+								<span th:text="${#temporals.format(board.modTime, 'yyyy-MM-dd HH:mm:ss')}"></span></h6>
 							<h6>첨부 파일:
 								<span th:each="file: ${fileList}">
 									<a th:href="@{/file/download/upload/{x}(x=${file})}" class="me-2" download>[[${file}]]</a>
@@ -50,16 +59,84 @@
 						<div class="col-4 text-end">
 							<h5>[[${board.uname}]]</h5>
 							<h6>조회 [[${board.viewCount}]] &nbsp;&nbsp; 댓글 [[${board.replyCount}]]</h6>
-							<h6><i class="fa-regular fa-thumbs-up"></i> [[${board.likeCount}]]</h6>
+							<h6>
+								<span th:if="${session.sessUid eq board.uid}">		<!-- 본인은 좋아요 X-->
+									<a href="#"><i class="fa-regular fa-thumbs-up"></i>[[${count}]]</a>
+								</span>
+								<span th:if="${session.sessUid ne board.uid}">
+									<a href="#" th:onclick="likeClick([[${board.bid}]])">
+									<i class="fa-regular fa-thumbs-up"></i>
+									<span id = "likeCount" th:text="${count}"></span>
+									</a>
+								</span>
+							</h6>
+
 						</div>
 						<hr>
-						<div class="col-12" th:utext="${board.content}"></div>							
+						<div class="col-12" th:text="${board.content}"></div>
+						<br><br><hr>							
 					</div>
+
+					<div th:each="reply: ${replyList}">
+						<div class="row" th:if="${reply.isMine == 0}">
+							<div class="col-9">
+								<span class="me-2">[[${reply.uname}]]</span>
+								<span th:text="${#temporals.format(reply.regTime, 'yyyy-MM-dd HH:mm:ss')}"></span><br>
+								<span>[(${reply.comment})]</span>
+							</div>
+							<div class="col-3"></div>
+						</div>
+						<div class="row" th:if="${reply.isMine == 1}">
+							<div class="col-3"></div>
+							<div class="col-9 text-end">
+								<span class="me-2">[[${reply.uname}]]</span>
+								<span th:text="${#temporals.format(reply.regTime, 'yyyy-MM-dd HH:mm:ss')}"></span><br>
+								<span>[(${reply.comment})]</span>
+							</div>
+						</div>
+						<hr>
+					</div>
+					<form class="form-inline" action="/abbs/board/reply" method="post">
+						<input type="hidden" name="bid" th:value="${board.bid}">
+						<input type="hidden" name="uid" th:value="${board.uid}">
+						<div class="row d-flex mt-2" style="align-items: center;">
+							<div class="col-1">
+								<label class="col-form-label">댓글</label>
+							</div>
+							<div class="col-9">
+								<textarea name="comment" rows="2" class="form-control"></textarea>
+							</div>
+							<div class="col-2">
+								<button type="submit" class="btn btn-primary ms-3">등록</button>
+							</div>
+						</div>
+					</form>
 				</main>
 			</div>
 		</div>
 	</div>
 
 	<footer th:replace="~{fragments/base :: bottom}"></footer>
+
+	<div class="modal" id="deleteModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">게시글 삭제</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+			
+				<!-- Modal body -->
+				<div class="modal-body">
+					<strong>정말로 삭제하시겠습니까?</strong>
+					<div class="text-center mt-5">
+						<button type="button" class="btn btn-danger" th:onclick="|location.href='@{/board/delete/{x}(x=${board.bid})}'|">삭제</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

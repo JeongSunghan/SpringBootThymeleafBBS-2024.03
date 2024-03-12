@@ -13,6 +13,12 @@ public class Like {
 		this.bid = bid;
 		this.value = value;
 	}
+
+	public Like(String uid, int bid, int value) {
+		this.uid = uid;
+		this.bid = bid;
+		this.value = value;
+	}
 	
 	@Override
 	public String toString() {

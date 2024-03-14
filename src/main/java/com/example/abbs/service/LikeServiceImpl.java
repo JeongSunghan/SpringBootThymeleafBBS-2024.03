@@ -29,11 +29,12 @@ public class LikeServiceImpl implements LikeService{
 	}
 
 	@Override
-	public void toggleLike(Like like) {
+	public int toggleLike(Like like) {
 		like = likeDao.getLike(like.getBid(), like.getUid());
 		int value = like.getValue() == 0 ? 1 : 0 ;				//0 이면 1, 1 이면 0
 		like.setValue(value);
 		likeDao.updateLike(like);
+		return value;
 	}
 
 	@Override

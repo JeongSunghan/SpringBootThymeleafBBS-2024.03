@@ -24,6 +24,8 @@ public interface BoardService {
 	
 	void increaseReplyCount(int bid);
 	
-	void increaseLikeCount(int bid);
+	void updateLikeCount(int bid, int count);
+	
+	
 	
 }

@@ -21,7 +21,7 @@ public interface LikeDao {
 	@Select("select * from likes where bid=#{bid}")
 	List<Like> getLikeList(int bid);
 	
-	@Insert("insert into likes values(default, #{bid}, #{uid}, #{value}")
+	@Insert("insert into likes values(default, #{uid}, #{bid}, #{value})")
 	void insertLike(Like like);
 	
 	

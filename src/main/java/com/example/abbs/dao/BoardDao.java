@@ -43,4 +43,7 @@ public interface BoardDao {
 	@Update("update board set ${field}=${field}+1 where bid=#{bid}")
 	void increaseCount(String field, int bid);	
 	
+	@Update("update board set likeCount=#{count} where bid=#{bid}")
+	void updateLikeCount(int bid, int count);
+	
 }

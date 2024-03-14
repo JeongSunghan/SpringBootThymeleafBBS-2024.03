@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지 갤러리</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: 2fr 3fr; /* 큰 이미지 영역과 작은 이미지 영역의 비율을 조정할 수 있습니다. */
+            grid-gap: 20px;
+        }
+
+        .main-image {
+            grid-column: 1 / span 2; /* 큰 이미지가 2개의 열을 차지하도록 설정합니다. */
+            width: 100%;
+            height: auto;
+        }
+
+        .small-images {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 작은 이미지를 4개의 열로 배치합니다. */
+            grid-gap: 10px;
+        }
+
+        .small-images img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/static/img/ck-logo.png" alt="큰 이미지" class="main-image">
+        <div class="small-images">
+            <img src="/static/img/github-logo.png" alt="작은 이미지 1">
+            <img src="/static/img/kakao-logo.png" alt="작은 이미지 2">
+            <img src="/static/img/google-logo.png" alt="작은 이미지 3">
+            <img src="/static/img/naver-logo.jpg" alt="작은 이미지 4">
+        </div>
+    </div>
+</body>
+</html>

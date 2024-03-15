@@ -8,6 +8,12 @@ public class Anniversary {
 	private int isHoliday;
 	
 	public Anniversary() { }
+	public Anniversary(String uid, String aname, String adate, int isHoliday) {
+		this.uid = uid;
+		this.aname = aname;
+		this.adate = adate;
+		this.isHoliday = isHoliday;
+	}
 	public Anniversary(int aid, String uid, String aname, String adate, int isHoliday) {
 		this.aid = aid;
 		this.uid = uid;

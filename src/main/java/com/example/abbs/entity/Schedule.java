@@ -12,6 +12,17 @@ public class Schedule {
 	private String memo;
 	
 	public Schedule() { }
+	public Schedule(String uid, String sdate, String title, String place, String startTime, String endTime,
+			int isImportant, String memo) {
+		this.uid = uid;
+		this.sdate = sdate;
+		this.title = title;
+		this.place = place;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.isImportant = isImportant;
+		this.memo = memo;
+	}
 	public Schedule(int sid, String uid, String sdate, String title, String place, String startTime, String endTime,
 			int isImportant, String memo) {
 		this.sid = sid;
